@@ -1,0 +1,77 @@
+@use "../../styles/base/variables.styles" as *;
+@use "../../styles/base/mixins.styles" as *;
+
+// .compound-interest-calculator__double-label-input-wrapper {
+//     display: flex;
+//     align-items: center;
+// }
+
+// .compound-interest-calculator__double-label-input-wrapper {
+//     margin-top: 1.5rem;
+// }
+
+// .compound-interest-calculator__clipped-label--right {
+//     font-size: 1.1rem;
+// }
+
+// .compound-interest-calculator__clipped-label--left {
+//     clip-path: polygon(0 0, 73.5% 0, 100% 100%, 0 100%);
+//     position: relative;
+//     font-size: 1rem;
+//     padding-right: 1.2rem;
+//     margin-right: 6px;
+//     text-align: right;
+//     border-radius: 0;
+//     border-top-left-radius: 4px;
+//     border-bottom-left-radius: 4px;
+//     width: 100%;
+// }
+
+// // .management-fees-percent-inputs-container {
+// // display: flex;
+// // justify-content: center;
+// // align-items: center;
+// // // margin: auto 0 auto auto;
+// // margin-top: 1rem;
+// // // width: 90%;
+// // gap: 2rem;
+
+// .compound-interest-calculator__clipped-double-label-input-wrapper--left {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 80%;
+//     margin: 0 32px 0 0;
+// }
+
+// .compound-interest-calculator__clipped-double-label-input-wrapper--right {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 80%;
+//     margin: 0;
+// }
+
+// // .compound-interest-calculator__clipped-label {
+// //     font-size: 1rem;
+// //     // width: 90%;
+// //     padding: 0 0 0 1rem;
+// //     text-align: center;
+// // }
+
+// // .compound-interest-calculator__clipped-label[for="management-fees-from-the-accrual"] {
+// //     clip-path: polygon(0 0, 73.5% 0, 100% 100%, 0 100%);
+// //     position: relative;
+// //     padding-right: 1.2rem;
+// //     text-align: right;
+// //     border-radius: 0;
+// //     border-top-left-radius: 4px;
+// //     border-bottom-left-radius: 4px;
+// //     // background: $golden;
+// // }
+
+// .compound-interest-calculator__input-add-reduce-buttons-wrapper {
+//     // left: 17px;
+//     margin: 0;
+// }
+// }

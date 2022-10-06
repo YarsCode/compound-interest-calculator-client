@@ -1,0 +1,8 @@
+@use "./variables.styles" as *;
+
+@mixin input-on-focus {
+    outline: none;
+    box-shadow: -4px 0px 35px 3px rgb($yellow, 0.7);
+    border-radius: none;
+    transition: box-shadow 0.07s ease-in;
+}

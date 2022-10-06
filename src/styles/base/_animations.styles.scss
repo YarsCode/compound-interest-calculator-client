@@ -1,0 +1,128 @@
+@use "./variables.styles" as *;
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        max-height: 0;
+        // margin-top: 0;
+    }
+    100% {
+        visibility: visible;
+        opacity: 1;
+        max-height: 200px;
+        // margin-top: 0;
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        visibility: visible;
+        opacity: 1;
+        max-height: 200px;
+        // margin-top: 0;
+    }
+    100% {
+        opacity: 0;
+        max-height: 0;
+        // margin-top: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes slideUpThenRight {
+    0% {
+        visibility: visible;
+        opacity: 1;
+        max-height: 200px;
+        left: 0;
+        // margin-top: 0;
+    }
+    100% {
+        opacity: 0;
+        max-height: 0;
+        // margin-top: 0;
+        visibility: hidden;
+        left: 100%;
+    }
+}
+
+@keyframes slideDownThenLeft {
+    0% {
+        opacity: 0;
+        max-height: 0;
+        // margin-top: 0;
+    }
+    100% {
+        visibility: visible;
+        opacity: 1;
+        max-height: 200px;
+        left: 0;
+        // margin-top: 0;
+    }
+}
+
+@keyframes slideRightToCenter {
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes slideCenterToLeft {
+    0% {
+        right: 0;
+    }
+    100% {
+        right: 100%;
+    }
+}
+
+@keyframes slideLeftToCenter {
+    100% {
+        right: 0;
+    }
+}
+
+@keyframes slideCenterToRight {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes rightInputSlideOpen {
+    0% {
+        right: 70px;
+    }
+    100% {
+        right: 0;
+    }
+}
+
+@keyframes rightInputSlideClose {
+    0% {
+        right: 0;
+    }
+    100% {
+        right: 26%;
+    }
+}
+
+@keyframes leftInputSlideOpen {
+    0% {
+        left: 72px;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes leftInputSlideClose {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: 25.5%;
+    }
+}
