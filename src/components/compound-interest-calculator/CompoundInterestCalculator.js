@@ -125,6 +125,18 @@ const CompoundInterestCalculator = () => {
         //         )
         //     );
         // }
+        //TODO handle numbers that are larger than 9_999_999_999_999_999
+        if (compoundInterestCalculatorFormState.values.totalDepositAmount > 9999999999999999) {
+            console.log("test");
+            return dispatchCompoundInterestCalculatorFormState(
+                updateInputAction(
+                    compoundInterestCalculatorFormActionTypes.UPDATE_INITIAL_DEPOSIT_AMOUNT,
+                    compoundInterestCalculatorFormState.values.initialDepositAmount,
+                    false,
+                    "מספר גדול מדי"
+                )
+            );
+        }
 
         dispatchCompoundInterestCalculatorFormState(
             updateInputAction(
@@ -345,10 +357,10 @@ const CompoundInterestCalculator = () => {
     };
 
     const handleSmallerFontWhenOverflows = (mainClass, currentResult) => {
-        if (currentResult > 9999999999999999) {
+        if (currentResult > 99999999999999) {
             return `${mainClass}--smallest-font`;
         }
-        if (currentResult > 9999999999999) {
+        if (currentResult > 99999999999) {
             return `${mainClass}--smaller-font`;
         }
         return mainClass;
@@ -588,8 +600,8 @@ const CompoundInterestCalculator = () => {
                         </p>
                     </div> */}
                     <div className="total-profits-result-container">
-                        <h3 className="total-profits-result__title">סך הרווח הכולל {/*(לפני מס)*/}</h3>
-                        <p className="total-profits-result">
+                        <h3 className={handleSmallerFontWhenOverflows("total-profits-result__title", compoundInterestCalculatorFormState.values.profit - compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV)}>סך הרווח הכולל {/*(לפני מס)*/}</h3>
+                        <p className={handleSmallerFontWhenOverflows("total-profits-result", compoundInterestCalculatorFormState.values.profit - compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV)}>
                             {separateNumberWithCommas(
                                 compoundInterestCalculatorFormState.values.profit -
                                     compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV

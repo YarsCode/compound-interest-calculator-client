@@ -18,7 +18,7 @@
     0% {
         visibility: visible;
         opacity: 1;
-        max-height: 200px;
+        max-height: 450px;
         // margin-top: 0;
     }
     100% {
@@ -109,6 +109,15 @@
     }
 }
 
+// @keyframes rightInputSlideCloseMobile {
+//     0% {
+//         right: 0;
+//     }
+//     100% {
+//         right: 50px;
+//     }
+// }
+
 @keyframes leftInputSlideOpen {
     0% {
         left: 72px;
@@ -126,3 +135,12 @@
         left: 25.5%;
     }
 }
+
+// @keyframes leftInputSlideCloseMobile {
+//     0% {
+//         left: 0;
+//     }
+//     100% {
+//         left: 50px;
+//     }
+// }
