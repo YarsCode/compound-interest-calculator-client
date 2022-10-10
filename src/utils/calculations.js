@@ -87,6 +87,7 @@ export const calculateFV = (
         },
     };
 };
+//TODO Fix NaN future value bug
 
 export const calculateProfit = (
     futureValue,
@@ -94,11 +95,14 @@ export const calculateProfit = (
     totalManagementFees,
     // lostOfProfitsFromManagementFeesFV
 ) => {
-    let profit = futureValue - totalDepositAmount - totalManagementFees;
-    console.log('totalManagementFees:', totalManagementFees)
-    console.log('profit:', profit)
+    let profit = futureValue - totalDepositAmount - totalManagementFees || Infinity;
+    // console.log('futureValue:', futureValue)
+    // console.log('totalDepositAmount:', totalDepositAmount)
+    // console.log('totalManagementFees:', totalManagementFees)
+    // console.log('profit:', profit)
 
-    if (!profit) profit = 0;
+    if (futureValue === Infinity || totalDepositAmount === Infinity || totalManagementFees === Infinity) profit = Infinity;
+    else if (!profit) profit = 0;
     if (profit % 1 === 0) return profit;
     else return parseFloat(profit.toFixed(2));
 };

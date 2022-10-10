@@ -10,6 +10,7 @@
     direction: rtl;
     max-width: 28rem;
     margin: 1rem;
+    margin: 20rem 1rem;
     padding-bottom: 1rem;
     // border: 1px solid black;
 
@@ -230,7 +231,8 @@
         hsl(186deg 84% 75%) 94%,
         hsl(186deg 83% 77%) 100%
     );
-    background: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.01)), url("https://i.pinimg.com/originals/6c/3c/cf/6c3ccf6f7b723b9b99ae155b433b1f43.jpg");
+    background: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.01)),
+        url("https://i.pinimg.com/originals/6c/3c/cf/6c3ccf6f7b723b9b99ae155b433b1f43.jpg");
     background-size: 100%;
     background-position: center left;
     background-repeat: no-repeat;
@@ -244,7 +246,7 @@
     &:hover {
         transform: translateX(-2px) translateY(-2px);
         box-shadow: -8px 4px 6px rgba(0, 220, 255, 0.6);
-        transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -352,13 +354,17 @@
 
     &--smaller-font {
         @extend .deposit-result__title;
+    }
+
+    &--even-smaller-font {
+        @extend .deposit-result__title;
         font-size: 1.2rem;
         transition: all 0.2s ease-in-out;
     }
 
     &--smallest-font {
         @extend .deposit-result__title;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         transition: all 0.2s ease-in-out;
     }
 }
@@ -387,9 +393,15 @@
         transition: all 0.2s ease-in-out;
     }
 
+    &--even-smaller-font {
+        @extend .deposit-result-sum;
+        font-size: 1rem;
+        transition: all 0.2s ease-in-out;
+    }
+
     &--smallest-font {
         @extend .deposit-result-sum;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         transition: all 0.2s ease-in-out;
     }
 }
@@ -435,6 +447,24 @@
         border-bottom-right-radius: 0;
         border-top-left-radius: 4px;
         font-size: 1.2rem;
+
+        &--smaller-font {
+            @extend .deposit-result__title;
+            // font-size: 1rem;
+            // transition: all 0.2s ease-in-out;
+        }
+
+        &--even-smaller-font {
+            @extend .deposit-result__title;
+            font-size: 1.1rem;
+            transition: all 0.2s ease-in-out;
+        }
+    
+        &--smallest-font {
+            @extend .deposit-result__title;
+            font-size: 1.1rem;
+            transition: all 0.2s ease-in-out;
+        }
     }
 
     & .deposit-result-sum {
@@ -443,6 +473,24 @@
         border-bottom-right-radius: 4px;
         border-top-left-radius: 0;
         font-size: 1.2rem;
+
+        &--smaller-font {
+            @extend .deposit-result-sum;
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        &--even-smaller-font {
+            @extend .deposit-result-sum;
+            font-size: 0.9rem;
+            transition: all 0.2s ease-in-out;
+        }
+    
+        &--smallest-font {
+            @extend .deposit-result-sum;
+            font-size: 0.8rem;
+            transition: all 0.2s ease-in-out;
+        }
     }
 }
 
@@ -472,13 +520,19 @@
 
     &--smaller-font {
         @extend .total-profits-result__title;
+        // font-size: 1.2rem;
+        // transition: all 0.2s ease-in-out;
+    }
+
+    &--even-smaller-font {
+        @extend .total-profits-result__title;
         font-size: 1.2rem;
         transition: all 0.2s ease-in-out;
     }
 
     &--smallest-font {
         @extend .total-profits-result__title;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         transition: all 0.2s ease-in-out;
     }
 }
@@ -492,9 +546,15 @@
         transition: all 0.2s ease-in-out;
     }
 
-    &--smallest-font {
+    &--even-smaller-font {
         @extend .total-profits-result;
         font-size: 1.1rem;
+        transition: all 0.2s ease-in-out;
+    }
+
+    &--smallest-font {
+        @extend .total-profits-result;
+        font-size: 0.9rem;
         transition: all 0.2s ease-in-out;
     }
 }
@@ -636,6 +696,7 @@
         height: 100%;
         position: relative;
         bottom: 4px;
+        text-shadow: 2px 2px 20px #fff;
     }
     &:hover,
     &:focus {
@@ -752,6 +813,7 @@
         border-top-right-radius: 4px;
         border-top-left-radius: 4px;
     }
+
     .deposit-result-sum {
         font-size: 1.2rem;
         border-radius: 0;
@@ -759,9 +821,20 @@
         border-bottom-left-radius: 4px;
     }
 
+    .expand-form-and-results-btn-container {
+        margin: 4px auto auto;
+    }
+
     .expand-future-value-options-button-container {
         width: 100%;
         overflow: hidden;
+        margin: auto auto 4px;
+        transition: all 0.3s ease-in-out !important;
+
+        &--expanded {
+            margin: auto auto 6px;
+            transition: all 0.3s ease-in-out !important;
+        }
 
         &:hover,
         &:focus {
@@ -770,11 +843,14 @@
         }
     }
 
+    .additional-future-value-options-container {
+        gap: 2px;
+    }
+
     .additional-future-value-option-container {
         flex-direction: column;
 
         &:first-child {
-
             .additional-future-value-option__title {
                 border-top-right-radius: inherit;
                 border-top-left-radius: inherit;
@@ -794,13 +870,17 @@
                 border-bottom-left-radius: inherit;
             }
         }
+
+        .additional-future-value-option__title,
+        .additional-future-value-option-result {
+            padding: 2px 6px;
+        }
     }
 
     .additional-future-value-option__title {
         min-width: 100%;
         text-align: center;
         border-radius: 0;
-        
     }
 
     .net-future-value-container {

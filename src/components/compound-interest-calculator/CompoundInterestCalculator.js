@@ -125,13 +125,13 @@ const CompoundInterestCalculator = () => {
         //         )
         //     );
         // }
-        //TODO handle numbers that are larger than 9_999_999_999_999_999
-        if (compoundInterestCalculatorFormState.values.totalDepositAmount > 9999999999999999) {
-            console.log("test");
+        const maxNumberAllowed = 999999999999;
+        
+        if (inputWithoutCommas > maxNumberAllowed) {
             return dispatchCompoundInterestCalculatorFormState(
                 updateInputAction(
                     compoundInterestCalculatorFormActionTypes.UPDATE_INITIAL_DEPOSIT_AMOUNT,
-                    compoundInterestCalculatorFormState.values.initialDepositAmount,
+                    maxNumberAllowed,
                     false,
                     "מספר גדול מדי"
                 )
@@ -162,6 +162,18 @@ const CompoundInterestCalculator = () => {
         //         )
         //     );
         // }
+        const maxNumberAllowed = 999999999999;
+        
+        if (inputWithoutCommas > maxNumberAllowed) {
+            return dispatchCompoundInterestCalculatorFormState(
+                updateInputAction(
+                    compoundInterestCalculatorFormActionTypes.UPDATE_MONTHLY_DEPOSIT_AMOUNT,
+                    maxNumberAllowed,
+                    false,
+                    "מספר גדול מדי"
+                )
+            );
+        }
 
         dispatchCompoundInterestCalculatorFormState(
             updateInputAction(
@@ -173,165 +185,18 @@ const CompoundInterestCalculator = () => {
         );
     };
 
-    const handleAnnualInterestOnChange = (e) => {
-        const input = parseFloat(e.target.value);
-        const isValidInput = /^[0-9]*$/.test(input);
-        // console.log('isValidInput:', isValidInput)
-
-        if (!isValidInput) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_ANNUAL_INTEREST,
-                    compoundInterestCalculatorFormState.values.annualInterest,
-                    false,
-                    "שדה זה יכול להכיל ספרות בלבד"
-                )
-            );
-        }
-
-        if (input > 5000) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_ANNUAL_INTEREST,
-                    compoundInterestCalculatorFormState.values.annualInterest,
-                    false,
-                    "אנא הכניסו מספר ריאלי"
-                )
-            );
-        }
-
-        dispatchCompoundInterestCalculatorFormState(
-            updateInputAction(compoundInterestCalculatorFormActionTypes.UPDATE_ANNUAL_INTEREST, input, true, "")
-        );
-    };
-
-    const handleAddButtonOnClick = (value, actionType, amountToAdd) => {
-        const parsedValue = parseFloat(value);
-
-        dispatchCompoundInterestCalculatorFormState(updateInputAction(actionType, parsedValue + amountToAdd, true, ""));
-    };
-
-    const handleReduceButtonOnClick = (value, actionType, amountToReduce) => {
-        const parsedValue = parseFloat(value);
-
-        dispatchCompoundInterestCalculatorFormState(
-            updateInputAction(actionType, parsedValue - amountToReduce, true, "")
-        );
-    };
-
-    const handleManagementFeePercentFromDepositOnChange = (e) => {
-        const input = parseFloat(e.target.value);
-        const isValidInput = /^[0-9]\d*(\.\d+)?$/.test(input);
-        // console.log('isValidInput:', isValidInput)
-        if (input.length === 0) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
-                    0,
-                    false,
-                    "אנא הכניסו מספר ריאלי"
-                )
-            );
-        }
-
-        if (!isValidInput) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
-                    compoundInterestCalculatorFormState.values.managementFeePercentFromDeposit,
-                    false,
-                    "שדה זה יכול להכיל ספרות בלבד"
-                )
-            );
-        }
-
-        if (input.length > 0 && input[0] === 0) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
-                    input.slice(1),
-                    false,
-                    "אנא הכניסו מספר ריאלי"
-                )
-            );
-        }
-
-        if (input > 100) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
-                    compoundInterestCalculatorFormState.values.managementFeePercentFromDeposit,
-                    false,
-                    "אנא הכניסו מספר ריאלי"
-                )
-            );
-        }
-
-        dispatchCompoundInterestCalculatorFormState(
-            updateInputAction(
-                compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
-                input,
-                true,
-                ""
-            )
-        );
-    };
-    const handleManagementFeePercentFromTheAccrualOnChange = (e) => {
-        const input = parseFloat(e.target.value);
-        const isValidInput = /^[0-9]*$/.test(input);
-        // console.log('isValidInput:', isValidInput)
-
-        if (!isValidInput) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
-                    compoundInterestCalculatorFormState.values.managementFeePercentFromTheAccrual,
-                    false,
-                    "שדה זה יכול להכיל ספרות בלבד"
-                )
-            );
-        }
-
-        // if (parseInt(e.target.value) === 0) {
-        //     return dispatchCompoundInterestCalculatorFormState(
-        //         updateInputAction(
-        //             compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
-        //             compoundInterestCalculatorFormState.values.managementFeePercentFromTheAccrual,
-        //             false,
-        //             "אנא הכניסו מספר ריאלי"
-        //         )
-        //     );
-        // }
-
-        if (input > 100) {
-            return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
-                    compoundInterestCalculatorFormState.values.managementFeePercentFromTheAccrual,
-                    false,
-                    "אנא הכניסו מספר ריאלי"
-                )
-            );
-        }
-
-        dispatchCompoundInterestCalculatorFormState(
-            updateInputAction(
-                compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
-                input,
-                true,
-                ""
-            )
-        );
-    };
-
     const handlePeriodOfInvestmentInYearsOnChange = (e) => {
-        const input = parseInt(e.target.value);
-        const isValidInput = /^[0-9]*$/.test(input);
-        if (!isValidInput) {
+        const input = parseInt(e.target.value) || 0;
+        // const isValidInput = /^[0-9]*$/.test(input);
+        const maxNumberAllowed = 200;
+        const minNumberAllowed = 0;
+        
+        if (input > maxNumberAllowed || input < minNumberAllowed) {
+            const periodOfInvestmentInYears = input > maxNumberAllowed ? maxNumberAllowed : minNumberAllowed;
             return dispatchCompoundInterestCalculatorFormState(
                 updateInputAction(
                     compoundInterestCalculatorFormActionTypes.UPDATE_PERIOD_OF_INVESTMENT_IN_YEARS,
-                    compoundInterestCalculatorFormState.values.periodOfInvestmentInYears,
+                    periodOfInvestmentInYears,
                     false,
                     "שדה זה יכול להכיל ספרות בלבד"
                 )
@@ -348,6 +213,119 @@ const CompoundInterestCalculator = () => {
         );
     };
 
+    const handleAnnualInterestOnChange = (e) => {
+        const input = parseFloat(e.target.value) || 0;
+        const maxNumberAllowed = 5000;
+        const minNumberAllowed = 0;
+
+        if (input > maxNumberAllowed || input < minNumberAllowed) {
+            const annualInterest = input > maxNumberAllowed ? maxNumberAllowed : minNumberAllowed;
+            return dispatchCompoundInterestCalculatorFormState(
+                updateInputAction(
+                    compoundInterestCalculatorFormActionTypes.UPDATE_ANNUAL_INTEREST,
+                    annualInterest,
+                    false,
+                    "אנא הכניסו מספר ריאלי"
+                )
+            );
+        }
+
+        dispatchCompoundInterestCalculatorFormState(
+            updateInputAction(compoundInterestCalculatorFormActionTypes.UPDATE_ANNUAL_INTEREST, input, true, "")
+        );
+    };
+
+    const handleAddButtonOnClick = (value, actionType, amountToAdd, maxNumberAllowed) => {
+        const parsedValue = parseFloat(value) || 0;
+
+        if ((parsedValue + amountToAdd) > maxNumberAllowed) {
+            return dispatchCompoundInterestCalculatorFormState(
+                updateInputAction(
+                    actionType,
+                    maxNumberAllowed,
+                    false,
+                    "המספר גדול מדי"
+                )
+            );
+        }
+
+        dispatchCompoundInterestCalculatorFormState(updateInputAction(actionType, parsedValue + amountToAdd, true, ""));
+    };
+
+    const handleReduceButtonOnClick = (value, actionType, amountToReduce, minNumberAllowed) => {
+        const parsedValue = parseFloat(value) || 0;
+
+        if ((parsedValue - amountToReduce) < minNumberAllowed) {
+            return dispatchCompoundInterestCalculatorFormState(
+                updateInputAction(
+                    actionType,
+                    minNumberAllowed,
+                    false,
+                    "לא יכול להכיל מספרים שליליים"
+                )
+            );
+        }
+
+        dispatchCompoundInterestCalculatorFormState(
+            updateInputAction(actionType, parsedValue - amountToReduce, true, "")
+        );
+    };
+
+    const handleManagementFeePercentFromDepositOnChange = (e) => {
+        const input = parseFloat(e.target.value) || 0;
+        const maxNumberAllowed = 50;
+        const minNumberAllowed = 0;
+
+        if (input > maxNumberAllowed || input < minNumberAllowed) {
+            const managementFeePercentFromDeposit = input > maxNumberAllowed ? maxNumberAllowed : minNumberAllowed;
+
+            return dispatchCompoundInterestCalculatorFormState(
+                updateInputAction(
+                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
+                    managementFeePercentFromDeposit,
+                    false,
+                    "אנא הכניסו מספר ריאלי"
+                )
+            );
+        }
+
+        dispatchCompoundInterestCalculatorFormState(
+            updateInputAction(
+                compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
+                input,
+                true,
+                ""
+            )
+        );
+    };
+    const handleManagementFeePercentFromTheAccrualOnChange = (e) => {
+        const input = parseFloat(e.target.value) || 0;
+        const maxNumberAllowed = 50;
+        const minNumberAllowed = 0;
+
+        if (input > maxNumberAllowed || input < minNumberAllowed) {
+            const managementFeePercentFromTheAccrual = input > maxNumberAllowed ? maxNumberAllowed : minNumberAllowed;
+            
+            return dispatchCompoundInterestCalculatorFormState(
+                updateInputAction(
+                    compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
+                    managementFeePercentFromTheAccrual,
+                    false,
+                    "אנא הכניסו מספר ריאלי"
+                )
+            );
+        }
+
+        dispatchCompoundInterestCalculatorFormState(
+            updateInputAction(
+                compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
+                input,
+                true,
+                ""
+            )
+        );
+    };
+
     const handleExpandButtonOnClick = (isExpanded) => {
         // if (isExpanded) {
         // setTimeout(() => {
@@ -357,10 +335,14 @@ const CompoundInterestCalculator = () => {
     };
 
     const handleSmallerFontWhenOverflows = (mainClass, currentResult) => {
-        if (currentResult > 99999999999999) {
+        const numberLength = Math.trunc(currentResult).toString().length;
+        if (numberLength > 20) {
             return `${mainClass}--smallest-font`;
         }
-        if (currentResult > 99999999999) {
+        if (numberLength > 13) {
+            return `${mainClass}--even-smaller-font`;
+        }
+        if (numberLength > 10) {
             return `${mainClass}--smaller-font`;
         }
         return mainClass;
@@ -398,14 +380,16 @@ const CompoundInterestCalculator = () => {
                         handleAddButtonOnClick(
                             compoundInterestCalculatorFormState.values.annualInterest,
                             compoundInterestCalculatorFormActionTypes.UPDATE_ANNUAL_INTEREST,
-                            0.5
+                            0.5,
+                            5000
                         );
                     }}
                     reduceButtonOnClick={() => {
                         handleReduceButtonOnClick(
                             compoundInterestCalculatorFormState.values.annualInterest,
                             compoundInterestCalculatorFormActionTypes.UPDATE_ANNUAL_INTEREST,
-                            0.5
+                            0.5,
+                            0
                         );
                     }}
                 />
@@ -426,14 +410,16 @@ const CompoundInterestCalculator = () => {
                                 handleAddButtonOnClick(
                                     compoundInterestCalculatorFormState.values.managementFeePercentFromDeposit,
                                     compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
-                                    0.5
+                                    0.5,
+                                    50
                                 );
                             }}
                             reduceButtonOnClick={() => {
                                 handleReduceButtonOnClick(
                                     compoundInterestCalculatorFormState.values.managementFeePercentFromDeposit,
                                     compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT,
-                                    0.5
+                                    0.5,
+                                    0
                                 );
                             }}
                             isExpanded={displayAdditionalInputs}
@@ -448,14 +434,16 @@ const CompoundInterestCalculator = () => {
                                 handleAddButtonOnClick(
                                     compoundInterestCalculatorFormState.values.managementFeePercentFromTheAccrual,
                                     compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
-                                    0.5
+                                    0.5,
+                                    50
                                 );
                             }}
                             reduceButtonOnClick={() => {
                                 handleReduceButtonOnClick(
                                     compoundInterestCalculatorFormState.values.managementFeePercentFromTheAccrual,
                                     compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
-                                    0.5
+                                    0.5,
+                                    0
                                 );
                             }}
                             isExpanded={displayAdditionalInputs}
@@ -552,8 +540,8 @@ const CompoundInterestCalculator = () => {
                                     : "total-management-fees-from-deposit-container"
                             }
                         >
-                            <h3 className="deposit-result__title">סך דמי ניהול מההפקדה</h3>
-                            <p className="deposit-result-sum">
+                            <h3 className={handleSmallerFontWhenOverflows("deposit-result__title", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit)}>סך דמי ניהול מההפקדה</h3>
+                            <p className={handleSmallerFontWhenOverflows("deposit-result-sum", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit)}>
                                 {separateNumberWithCommas(
                                     compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit
                                 )}
@@ -567,8 +555,8 @@ const CompoundInterestCalculator = () => {
                                     : "total-management-fees-from-the-accrual-container"
                             }
                         >
-                            <h3 className="deposit-result__title">סך דמי ניהול מהצבירה</h3>
-                            <p className="deposit-result-sum">
+                            <h3 className={handleSmallerFontWhenOverflows("deposit-result__title", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual)}>סך דמי ניהול מהצבירה</h3>
+                            <p className={handleSmallerFontWhenOverflows("deposit-result-sum", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual)}>
                                 {separateNumberWithCommas(
                                     compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual
                                 )}
