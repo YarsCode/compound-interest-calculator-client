@@ -8,3 +8,7 @@ export const removeCommasFromNumber = (numberWithCommas) => {
     const numberWithoutCommas = numberWithCommas.replaceAll(",", "");
     return numberWithoutCommas;
 };
+
+export const isNumberInfinity = (number) => {
+    return number === Infinity;
+};

@@ -108,6 +108,8 @@ export const calculateProfit = (
 };
 
 export const calculateFVAfterTax = (futureValue, profit, tax) => {
+    if (futureValue === Infinity || profit === Infinity || tax === Infinity) return Infinity;
+    
     let profitAfterTax = profit - profit * tax;
     const futureValueAfterTax = futureValue - profit + profitAfterTax;
 

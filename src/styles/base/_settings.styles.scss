@@ -1,9 +1,35 @@
+@use "./variables.styles" as *;
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: 'Assistant', sans-serif;
+    font-family: "Assistant", sans-serif;
     font-size: 1.25rem;
+}
+
+.compound-interest-calculator-container {
+    /* width */
+    ::-webkit-scrollbar {
+        height: 4px;
+        border-radius: 50%;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #424242;
+        border-radius: 4px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: $yellow;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #fff;
+    }
 }

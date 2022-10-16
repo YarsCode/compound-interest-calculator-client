@@ -11,7 +11,11 @@ import {
     calculateProfit,
     calculateTotalDepositAmount,
 } from "../../utils/calculations";
-import { removeCommasFromNumber, separateNumberWithCommas } from "../../utils/numberDisplayManipulations.utils";
+import {
+    isNumberInfinity,
+    removeCommasFromNumber,
+    separateNumberWithCommas,
+} from "../../utils/numberDisplayManipulations.utils";
 import PercentInputLabelContainer from "../percent-input-label-container/PercentInputLabelContainer";
 // import { preventInvalidChars } from "../../utils/formValidations";
 import CompoundInterestCalculatorNumberInput from "../compound-interest-calculator-number-input/CompoundInterestCalculatorNumberInput";
@@ -126,7 +130,7 @@ const CompoundInterestCalculator = () => {
         //     );
         // }
         const maxNumberAllowed = 999999999999;
-        
+
         if (inputWithoutCommas > maxNumberAllowed) {
             return dispatchCompoundInterestCalculatorFormState(
                 updateInputAction(
@@ -163,7 +167,7 @@ const CompoundInterestCalculator = () => {
         //     );
         // }
         const maxNumberAllowed = 999999999999;
-        
+
         if (inputWithoutCommas > maxNumberAllowed) {
             return dispatchCompoundInterestCalculatorFormState(
                 updateInputAction(
@@ -190,7 +194,7 @@ const CompoundInterestCalculator = () => {
         // const isValidInput = /^[0-9]*$/.test(input);
         const maxNumberAllowed = 200;
         const minNumberAllowed = 0;
-        
+
         if (input > maxNumberAllowed || input < minNumberAllowed) {
             const periodOfInvestmentInYears = input > maxNumberAllowed ? maxNumberAllowed : minNumberAllowed;
             return dispatchCompoundInterestCalculatorFormState(
@@ -238,14 +242,9 @@ const CompoundInterestCalculator = () => {
     const handleAddButtonOnClick = (value, actionType, amountToAdd, maxNumberAllowed) => {
         const parsedValue = parseFloat(value) || 0;
 
-        if ((parsedValue + amountToAdd) > maxNumberAllowed) {
+        if (parsedValue + amountToAdd > maxNumberAllowed) {
             return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    actionType,
-                    maxNumberAllowed,
-                    false,
-                    "המספר גדול מדי"
-                )
+                updateInputAction(actionType, maxNumberAllowed, false, "המספר גדול מדי")
             );
         }
 
@@ -255,14 +254,9 @@ const CompoundInterestCalculator = () => {
     const handleReduceButtonOnClick = (value, actionType, amountToReduce, minNumberAllowed) => {
         const parsedValue = parseFloat(value) || 0;
 
-        if ((parsedValue - amountToReduce) < minNumberAllowed) {
+        if (parsedValue - amountToReduce < minNumberAllowed) {
             return dispatchCompoundInterestCalculatorFormState(
-                updateInputAction(
-                    actionType,
-                    minNumberAllowed,
-                    false,
-                    "לא יכול להכיל מספרים שליליים"
-                )
+                updateInputAction(actionType, minNumberAllowed, false, "לא יכול להכיל מספרים שליליים")
             );
         }
 
@@ -305,7 +299,7 @@ const CompoundInterestCalculator = () => {
 
         if (input > maxNumberAllowed || input < minNumberAllowed) {
             const managementFeePercentFromTheAccrual = input > maxNumberAllowed ? maxNumberAllowed : minNumberAllowed;
-            
+
             return dispatchCompoundInterestCalculatorFormState(
                 updateInputAction(
                     compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL,
@@ -336,13 +330,14 @@ const CompoundInterestCalculator = () => {
 
     const handleSmallerFontWhenOverflows = (mainClass, currentResult) => {
         const numberLength = Math.trunc(currentResult).toString().length;
-        if (numberLength > 20) {
-            return `${mainClass}--smallest-font`;
-        }
         if (numberLength > 13) {
+            if (numberLength > 18) return `${mainClass}--smallest-font ${mainClass}--scroll-x`;
+            else return `${mainClass}--smallest-font`;
+        }
+        if (numberLength > 11) {
             return `${mainClass}--even-smaller-font`;
         }
-        if (numberLength > 10) {
+        if (numberLength > 9) {
             return `${mainClass}--smaller-font`;
         }
         return mainClass;
@@ -523,7 +518,7 @@ const CompoundInterestCalculator = () => {
                             )}
                         >
                             {separateNumberWithCommas(compoundInterestCalculatorFormState.values.totalDepositAmount)}
-                            <span>₪</span>
+                            {!isNumberInfinity(compoundInterestCalculatorFormState.values.totalDepositAmount) && <span>₪</span>}
                         </p>
                     </div>
                     <div
@@ -540,12 +535,24 @@ const CompoundInterestCalculator = () => {
                                     : "total-management-fees-from-deposit-container"
                             }
                         >
-                            <h3 className={handleSmallerFontWhenOverflows("deposit-result__title", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit)}>סך דמי ניהול מההפקדה</h3>
-                            <p className={handleSmallerFontWhenOverflows("deposit-result-sum", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit)}>
+                            <h3
+                                className={handleSmallerFontWhenOverflows(
+                                    "deposit-result__title",
+                                    compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit
+                                )}
+                            >
+                                סך דמי ניהול מההפקדה
+                            </h3>
+                            <p
+                                className={handleSmallerFontWhenOverflows(
+                                    "deposit-result-sum",
+                                    compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit
+                                )}
+                            >
                                 {separateNumberWithCommas(
                                     compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit
                                 )}
-                                <span>₪</span>
+                                {!isNumberInfinity(compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit) && <span>₪</span>}
                             </p>
                         </div>
                         <div
@@ -555,12 +562,24 @@ const CompoundInterestCalculator = () => {
                                     : "total-management-fees-from-the-accrual-container"
                             }
                         >
-                            <h3 className={handleSmallerFontWhenOverflows("deposit-result__title", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual)}>סך דמי ניהול מהצבירה</h3>
-                            <p className={handleSmallerFontWhenOverflows("deposit-result-sum", compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual)}>
+                            <h3
+                                className={handleSmallerFontWhenOverflows(
+                                    "deposit-result__title",
+                                    compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual
+                                )}
+                            >
+                                סך דמי ניהול מהצבירה
+                            </h3>
+                            <p
+                                className={handleSmallerFontWhenOverflows(
+                                    "deposit-result-sum",
+                                    compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual
+                                )}
+                            >
                                 {separateNumberWithCommas(
                                     compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual
                                 )}
-                                <span>₪</span>
+                                {!isNumberInfinity(compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual) && <span>₪</span>}
                             </p>
                         </div>
                     </div>
@@ -588,36 +607,77 @@ const CompoundInterestCalculator = () => {
                         </p>
                     </div> */}
                     <div className="total-profits-result-container">
-                        <h3 className={handleSmallerFontWhenOverflows("total-profits-result__title", compoundInterestCalculatorFormState.values.profit - compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV)}>סך הרווח הכולל {/*(לפני מס)*/}</h3>
-                        <p className={handleSmallerFontWhenOverflows("total-profits-result", compoundInterestCalculatorFormState.values.profit - compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV)}>
+                        <h3
+                            className={handleSmallerFontWhenOverflows(
+                                "total-profits-result__title",
+                                compoundInterestCalculatorFormState.values.profit -
+                                    compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV
+                            )}
+                        >
+                            סך הרווח הכולל {/*(לפני מס)*/}
+                        </h3>
+                        <p
+                            className={handleSmallerFontWhenOverflows(
+                                "total-profits-result",
+                                compoundInterestCalculatorFormState.values.profit -
+                                    compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV
+                            )}
+                        >
                             {separateNumberWithCommas(
                                 compoundInterestCalculatorFormState.values.profit -
                                     compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV
                             )}
-                            <span>₪</span>
+                            {!isNumberInfinity(compoundInterestCalculatorFormState.values.profit -
+                                    compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV) && <span>₪</span>}
                         </p>
                     </div>
                 </div>
                 <div className="all-future-values-container">
-                    <button className={hasExpandedAdditionalFutureValueOptions ? "expand-future-value-options-button-container--expanded" : "expand-future-value-options-button-container"} onClick={() => {setHasExpandedAdditionalFutureValueOptions(!hasExpandedAdditionalFutureValueOptions)}}>
+                    <button
+                        className={
+                            hasExpandedAdditionalFutureValueOptions
+                                ? "expand-future-value-options-button-container--expanded"
+                                : "expand-future-value-options-button-container"
+                        }
+                        onClick={() => {
+                            setHasExpandedAdditionalFutureValueOptions(!hasExpandedAdditionalFutureValueOptions);
+                        }}
+                    >
                         <span>{hasExpandedAdditionalFutureValueOptions ? "-" : "+"}</span>
                     </button>
-                    <div className={hasExpandedAdditionalFutureValueOptions ? "additional-future-value-options-container--expanded" : "additional-future-value-options-container"}>
-                        <div className={hasExpandedAdditionalFutureValueOptions ? "additional-future-value-option-container--expanded" : "additional-future-value-option-container"}>
-                            <h3 className="additional-future-value-option__title">
-                                לפני מס ולפני ניכוי דמי הניהול
-                            </h3>
+                    <div
+                        className={
+                            hasExpandedAdditionalFutureValueOptions
+                                ? "additional-future-value-options-container--expanded"
+                                : "additional-future-value-options-container"
+                        }
+                    >
+                        <div
+                            className={
+                                hasExpandedAdditionalFutureValueOptions
+                                    ? "additional-future-value-option-container--expanded"
+                                    : "additional-future-value-option-container"
+                            }
+                        >
+                            <h3 className="additional-future-value-option__title">לפני מס ולפני ניכוי דמי הניהול</h3>
                             <p className="additional-future-value-option-result">
-                                <span>₪</span>
+                                {!isNumberInfinity(compoundInterestCalculatorFormState.values.futureValue) && <span>₪</span>}
                                 {separateNumberWithCommas(compoundInterestCalculatorFormState.values.futureValue)}
                             </p>
                         </div>
-                        <div className={hasExpandedAdditionalFutureValueOptions ? "additional-future-value-option-container--expanded" : "additional-future-value-option-container"}>
-                            <h3 className="additional-future-value-option__title">
-                                לפני מס ואחרי ניכוי דמי הניהול
-                            </h3>
+                        <div
+                            className={
+                                hasExpandedAdditionalFutureValueOptions
+                                    ? "additional-future-value-option-container--expanded"
+                                    : "additional-future-value-option-container"
+                            }
+                        >
+                            <h3 className="additional-future-value-option__title">לפני מס ואחרי ניכוי דמי הניהול</h3>
                             <p className="additional-future-value-option-result">
-                                <span>₪</span>
+                                {!isNumberInfinity(compoundInterestCalculatorFormState.values.futureValue -
+                                        compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit -
+                                        compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual -
+                                        compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV) && <span>₪</span>}
                                 {separateNumberWithCommas(
                                     compoundInterestCalculatorFormState.values.futureValue -
                                         compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit -
@@ -626,12 +686,20 @@ const CompoundInterestCalculator = () => {
                                 )}
                             </p>
                         </div>
-                        <div className={hasExpandedAdditionalFutureValueOptions ? "additional-future-value-option-container--expanded" : "additional-future-value-option-container"}>
-                            <h3 className="additional-future-value-option__title">
-                                אחרי מס ולפני ניכוי דמי הניהול
-                            </h3>
+                        <div
+                            className={
+                                hasExpandedAdditionalFutureValueOptions
+                                    ? "additional-future-value-option-container--expanded"
+                                    : "additional-future-value-option-container"
+                            }
+                        >
+                            <h3 className="additional-future-value-option__title">אחרי מס ולפני ניכוי דמי הניהול</h3>
                             <p className="additional-future-value-option-result">
-                                <span>₪</span>
+                                {!isNumberInfinity(calculateFVAfterTax(
+                                        compoundInterestCalculatorFormState.values.futureValue,
+                                        compoundInterestCalculatorFormState.values.profit,
+                                        0.25
+                                    )) && <span>₪</span>}
                                 {separateNumberWithCommas(
                                     calculateFVAfterTax(
                                         compoundInterestCalculatorFormState.values.futureValue,
@@ -659,7 +727,16 @@ const CompoundInterestCalculator = () => {
                                     0.25
                                 )
                             )}
-                            <span>₪</span>
+                            {!isNumberInfinity(
+                                calculateFVAfterTax(
+                                    compoundInterestCalculatorFormState.values.futureValue -
+                                        compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit -
+                                        compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual -
+                                        compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV,
+                                    compoundInterestCalculatorFormState.values.profit,
+                                    0.25
+                                )
+                            ) && <span>₪</span>}
                         </p>
                     </div>
                 </div>
