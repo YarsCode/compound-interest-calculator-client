@@ -324,15 +324,21 @@ const CompoundInterestCalculator = () => {
         // if (isExpanded) {
         // setTimeout(() => {
         setDisplayAdditionalInputs(!displayAdditionalInputs);
+        dispatchCompoundInterestCalculatorFormState(updateInputAction(compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_DEPOSIT, 0, true, ""));
+        dispatchCompoundInterestCalculatorFormState(updateInputAction(compoundInterestCalculatorFormActionTypes.UPDATE_MANAGEMENT_FEE_PERCENT_FROM_THE_ACCRUAL, 0, true, ""));
         // }, 500);
         // } else setDisplayAdditionalInputs(!displayAdditionalInputs);
     };
 
     const handleSmallerFontWhenOverflows = (mainClass, currentResult) => {
         const numberLength = Math.trunc(currentResult).toString().length;
+        if (numberLength > 16) {
+            // if (numberLength > 18) return `${mainClass}--smallest-font ${mainClass}--scroll-x`;
+            // else 
+            return `${mainClass}--smallest-font`;
+        }
         if (numberLength > 13) {
-            if (numberLength > 18) return `${mainClass}--smallest-font ${mainClass}--scroll-x`;
-            else return `${mainClass}--smallest-font`;
+            return `${mainClass}--second-smallest-font`;
         }
         if (numberLength > 11) {
             return `${mainClass}--even-smaller-font`;
@@ -660,7 +666,7 @@ const CompoundInterestCalculator = () => {
                             }
                         >
                             <h3 className="additional-future-value-option__title">לפני מס ולפני ניכוי דמי הניהול</h3>
-                            <p className="additional-future-value-option-result">
+                            <p className={handleSmallerFontWhenOverflows("additional-future-value-option-result", compoundInterestCalculatorFormState.values.futureValue)}>
                                 {!isNumberInfinity(compoundInterestCalculatorFormState.values.futureValue) && <span>₪</span>}
                                 {separateNumberWithCommas(compoundInterestCalculatorFormState.values.futureValue)}
                             </p>
@@ -673,7 +679,10 @@ const CompoundInterestCalculator = () => {
                             }
                         >
                             <h3 className="additional-future-value-option__title">לפני מס ואחרי ניכוי דמי הניהול</h3>
-                            <p className="additional-future-value-option-result">
+                            <p className={handleSmallerFontWhenOverflows("additional-future-value-option-result", compoundInterestCalculatorFormState.values.futureValue -
+                                        compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit -
+                                        compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual -
+                                        compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV)}>
                                 {!isNumberInfinity(compoundInterestCalculatorFormState.values.futureValue -
                                         compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit -
                                         compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual -
@@ -694,7 +703,11 @@ const CompoundInterestCalculator = () => {
                             }
                         >
                             <h3 className="additional-future-value-option__title">אחרי מס ולפני ניכוי דמי הניהול</h3>
-                            <p className="additional-future-value-option-result">
+                            <p className={handleSmallerFontWhenOverflows("additional-future-value-option-result", calculateFVAfterTax(
+                                        compoundInterestCalculatorFormState.values.futureValue,
+                                        compoundInterestCalculatorFormState.values.profit,
+                                        0.25
+                                    ))}>
                                 {!isNumberInfinity(calculateFVAfterTax(
                                         compoundInterestCalculatorFormState.values.futureValue,
                                         compoundInterestCalculatorFormState.values.profit,
@@ -716,7 +729,17 @@ const CompoundInterestCalculator = () => {
                             {/* סך החיסכון העתידי לאחר מס ואחרי ניכוי דמי הניהול (נטו) */}
                             סך החיסכון העתידי נטו
                         </h3>
-                        <p className="net-future-value">
+                        <p className={handleSmallerFontWhenOverflows(
+                                    "net-future-value",
+                                    calculateFVAfterTax(
+                                        compoundInterestCalculatorFormState.values.futureValue -
+                                            compoundInterestCalculatorFormState.values.totalManagementFeeSumFromDeposit -
+                                            compoundInterestCalculatorFormState.values.totalManagementFeeSumFromTheAccrual -
+                                            compoundInterestCalculatorFormState.values.lostOfProfitsFromManagementFeesFV,
+                                        compoundInterestCalculatorFormState.values.profit,
+                                        0.25
+                                    )
+                                )}>
                             {separateNumberWithCommas(
                                 calculateFVAfterTax(
                                     compoundInterestCalculatorFormState.values.futureValue -
